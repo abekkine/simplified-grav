@@ -84,6 +84,7 @@ void simulation_A() {
     printf("Astronomical Unit : %.1f km\n", c_AstronomicalUnit * 1e-3);
     printf("Earth Orbital Speed : %.1f km / s\n", c_EarthOrbitalSpeed * 1e-3);
     printf("Time Factor : %.4f\n", cT);
+    printf("Speed of Light : %.1f km / s\n", cSpeedFactor * 299792458.0 * 1e-3);
 }
 
 int main() {
