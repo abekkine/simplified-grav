@@ -63,10 +63,6 @@ public:
         right_ = center_.x + half_width;
         bottom_ = center_.y - half_height;
         top_ = center_.y + half_height;
-        L_INFO("vp[%.1f, %.1f, %.1f, %.1f]"
-            , left_, right_
-            , bottom_, top_
-        );
     }
     void Update(const Vector & cursor) {
         Pan(cursor);

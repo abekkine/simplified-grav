@@ -4,6 +4,9 @@
 #include "Display.hpp"
 #include "GravSim.hpp"
 
+#include <thread>
+#include <chrono>
+
 class Application {
 private:
     std::shared_ptr<GravSim> sim_;
@@ -13,9 +16,9 @@ public:
     ~Application() {}
 
     void Init() {
+        InitDisplay();
         sim_ = std::make_shared<GravSim>();
         sim_->Init();
-        InitDisplay();
     }
     void Run() {
         while (!DISPLAY.QuitCondition()) {
@@ -46,12 +49,13 @@ private:
         DISPLAY.SetPanAndZoom(true);
         DISPLAY.Init();       
     }
+    const double dT = 10.0 * 131.1 / 900.0;
     void RenderWorld() {
-        sim_->Step(10.0);
+        sim_->Step(dT);
         sim_->RenderWorld();
     }
     void RenderUi() {
-        // TODO
+        sim_->RenderUi();
     }
 };
 

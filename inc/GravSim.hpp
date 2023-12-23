@@ -2,9 +2,10 @@
 #define GRAV_SIM_HPP
 
 #include "Display.hpp"
+#include "GravUi.hpp"
 
+#include <chrono>
 #include <cmath>
-#include <cstdio>
 
 class GravSim {
 private:
@@ -35,6 +36,10 @@ private:
     double vy_;
     double elapsed_;
 
+    std::shared_ptr<GravUi> ui_;
+    std::chrono::time_point<std::chrono::high_resolution_clock> start_;
+    double clock_;
+
 public:
     GravSim() {}
     ~GravSim() {}
@@ -44,6 +49,11 @@ public:
         vx_ = 0.0;
         vy_ = -c_EarthOrbitalSpeed;
         elapsed_ = 0.0;
+
+        ui_ = std::make_shared<GravUi>();
+        ui_->Init();
+
+        start_ = std::chrono::high_resolution_clock::now();
     }
     void RenderWorld() {
         // Render Sun
@@ -60,7 +70,9 @@ public:
         glVertex2d(x_, y_);
         glEnd();
     }
-    void RenderUi() {}
+    void RenderUi() {
+        ui_->Step();
+    }
     void Step(const double& dt) {
 
         double a, r, ax, ay;
@@ -75,8 +87,10 @@ public:
         x_ += vx_ * dt;
         y_ += vy_ * dt;
         elapsed_ += dt / (cT * 3600.0 * 24);
+        clock_ = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start_).count();
 
-        // printf("(%.1f, %.1f)\n", x_, y_);
+        ui_->SetElapsed(elapsed_);
+        ui_->SetClock(clock_);
     }
 };
 

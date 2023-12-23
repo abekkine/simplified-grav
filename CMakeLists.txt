@@ -15,8 +15,11 @@ else ()
 endif ()
 
 include_directories(${CMAKE_SOURCE_DIR}/inc)
+include_directories(${CMAKE_SOURCE_DIR}/imgui)
 
-add_executable(gravSim main.cpp)
+file(GLOB IMGUI_SRCS ${CMAKE_SOURCE_DIR}/imgui/*.cpp)
+
+add_executable(gravSim main.cpp ${IMGUI_SRCS})
 
 if (UNIX)
     target_link_libraries(gravSim GL glfw)
